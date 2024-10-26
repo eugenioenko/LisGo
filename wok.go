@@ -27,7 +27,7 @@ func main() {
 
 func help() {
 	fmt.Print(`
-Wok is the interpreter of WokLang programming language.
+Wok is the interpreter of LisGo programming language.
 
 Usage:
 

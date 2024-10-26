@@ -1,4 +1,18 @@
-var demo = `(print (+ 1 2 3))
+var demo = String.raw`
+;   _        _          _____           _
+;  | |      (_)        / ____|         | |
+;  | |       _   ___  | |  __    ___   | |
+;  | |      | | / __| | | |_ |  / _ \  |_|
+;  | |____  | | \__ \ | |__| | | (_) |  _
+;  |______| |_| |___/  \_____|  \___/  (_)
+;
+; Welcome to LisGo a functional programming language inspired by listp!
+; LisGo inerpreter is crafted in GoLang and compiled to Wasm
+; More info at https://github.com/eugenioenko/LisGo
+;
+; Hit "RUN" to execute the program
+
+(print (+ 1 2 3))
 (print (- 2))
 (print (- 8 4))
 (print (print "yes"))
