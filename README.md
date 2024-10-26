@@ -14,13 +14,13 @@ LisGo is a minimalist programming language built with Go. It serves as a foundat
 
 which will execute:
 
-> GOOS=js GOARCH=wasm go build -o live/wok.wasm wasm/wok.go
+> GOOS=js GOARCH=wasm go build -o live/lisgo.wasm wasm/lisgo.go
 
 ## Running the project
 
-> wok exec [filename] will execute the script
+> lisgo exec [filename] will execute the script
 
-> wok eval [code] will execute the code passed as argument
+> lisgo eval [code] will execute the code passed as argument
 
 ## Running playground locally
 
@@ -29,6 +29,16 @@ WebAssembly's instantiateStreaming method requires CORS to be enabled, so a loca
 > npm install http-server
 > cd live
 > http-server
+
+## Testing
+
+Testing can be done by running:
+
+> make test
+
+This command will execute all the tests located in the tests folder by running:
+
+> go test ./tests
 
 ## LisGo Language Documentation
 

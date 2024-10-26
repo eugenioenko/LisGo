@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"lisgo/pkg/lisgo"
 	"os"
 	"strings"
-	"wok/woklang"
 )
 
 func main() {
@@ -15,11 +15,11 @@ func main() {
 		return
 	}
 	if args[1] == "exec" {
-		woklang.Exec(args[2])
+		lisgo.Exec(args[2])
 		return
 	}
 	if args[1] == "eval" {
-		woklang.Eval(strings.Join(args[2:], " "))
+		lisgo.Eval(strings.Join(args[2:], " "))
 		return
 	}
 
@@ -27,11 +27,11 @@ func main() {
 
 func help() {
 	fmt.Print(`
-Wok is the interpreter of LisGo programming language.
+Lisgo is the interpreter of LisGo programming language.
 
 Usage:
 
-  wok command [arguments]
+  lisgo command [arguments]
 
   The commands are:
 

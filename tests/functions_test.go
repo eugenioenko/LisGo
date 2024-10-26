@@ -1,8 +1,8 @@
 package testing
 
 import (
+	"lisgo/pkg/lisgo"
 	"testing"
-	"wok/woklang"
 )
 
 func TestDefineAFunction(t *testing.T) {
@@ -12,8 +12,8 @@ func TestDefineAFunction(t *testing.T) {
 		)
 		(debug function)
 	`
-	result := woklang.Eval(source)
-	if result.GetType() != woklang.WokTypeFunction {
+	result := lisgo.Eval(source)
+	if result.GetType() != lisgo.LisgoTypeFunction {
 		t.Fail()
 	}
 }
@@ -25,7 +25,7 @@ func TestFunctionShouldReturnValue(t *testing.T) {
 		)
 		(debug (function 1 2 777))
 	`
-	result := woklang.Eval(source)
+	result := lisgo.Eval(source)
 	if result.ToInteger() != 777 {
 		t.Fail()
 	}
@@ -38,8 +38,8 @@ func TestFunctionShouldNullUndefinedParams(t *testing.T) {
 		)
 		(debug (function 1 2))
 	`
-	result := woklang.Eval(source)
-	if result.GetType() != woklang.WokTypeNull {
+	result := lisgo.Eval(source)
+	if result.GetType() != lisgo.LisgoTypeNull {
 		t.Fail()
 	}
 }
@@ -55,7 +55,7 @@ func TestFunctionShouldReturnFromInner(t *testing.T) {
 		)
 		(debug (function 1 2 3))
 	`
-	result := woklang.Eval(source)
+	result := lisgo.Eval(source)
 	if result.ToInteger() != 777 {
 		t.Fail()
 	}
@@ -72,8 +72,8 @@ func TestFunctionShouldThrow(t *testing.T) {
 		)
 		(debug (function 1 2 3))
 	`
-	result := woklang.Eval(source)
-	if result.GetType() != woklang.WokTypeException {
+	result := lisgo.Eval(source)
+	if result.GetType() != lisgo.LisgoTypeException {
 		t.Fail()
 	}
 }

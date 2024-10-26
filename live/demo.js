@@ -6,8 +6,8 @@ var demo = String.raw`
 ;  | |____  | | \__ \ | |__| | | (_) |  _
 ;  |______| |_| |___/  \_____|  \___/  (_)
 ;
-; Welcome to LisGo a functional programming language inspired by listp!
-; LisGo inerpreter is crafted in GoLang and compiled to Wasm
+; Welcome to LisGo a functional programming language inspired by lisp!
+; LisGo interpreter is crafted in GoLang and compiled to Wasm
 ; More info at https://github.com/eugenioenko/LisGo
 ;
 ; Hit "RUN" to execute the program

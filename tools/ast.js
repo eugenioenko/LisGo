@@ -9,12 +9,12 @@ function generateAST(base, arg, AST, filename) {
   let file = `package main
 
 type ${base} interface {
-    Accept(visitor Visitor${base}) WokData
+    Accept(visitor Visitor${base}) LisgoData
 }\n\n`;
 
   file += `type Visitor${base} interface {\n`;
   Object.keys(AST).forEach((name) => {
-    file += `\tVisit${base}${name}(${arg} *${base}${name}) WokData\n`;
+    file += `\tVisit${base}${name}(${arg} *${base}${name}) LisgoData\n`;
   });
   file += "}\n\n";
 
@@ -31,7 +31,7 @@ type ${base} interface {
     file += `\treturn &${base}${name}{`;
     file += syntax.map((member) => member.split(" ")[0]).join(", ");
     file += "}\n}\n";
-    file += `\nfunc (${arg} *${base}${name}) Accept (visitor Visitor${base}) WokData {\n`;
+    file += `\nfunc (${arg} *${base}${name}) Accept (visitor Visitor${base}) LisgoData {\n`;
     file += `\treturn visitor.Visit${base}${name}(${arg})\n}\n\n`;
   });
 

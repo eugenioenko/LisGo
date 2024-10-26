@@ -2,16 +2,16 @@ package testing
 
 import (
 	"fmt"
+	w "lisgo/pkg/lisgo"
 	"math/rand"
 	"testing"
-	w "wok/woklang"
 )
 
 func TestShouldBeInteger(t *testing.T) {
 	for i := 0; i < 777; i++ {
 		rnd := rand.Int63()
 		v := w.Eval(fmt.Sprintf("(debug %d)", rnd))
-		if v.GetType() != w.WokTypeInteger {
+		if v.GetType() != w.LisgoTypeInteger {
 			t.Fail()
 		}
 	}
@@ -31,14 +31,14 @@ func TestShouldBeString(t *testing.T) {
 	for i := 0; i < 777; i++ {
 		rnd := rand.Int63()
 		v := w.Eval(fmt.Sprintf(`(debug "%d")`, rnd))
-		if v.GetType() != w.WokTypeString {
+		if v.GetType() != w.LisgoTypeString {
 			t.Fail()
 		}
 	}
 }
 func TestShouldBeBooleanTrue(t *testing.T) {
 	v := w.Eval("(debug true)")
-	if v.GetType() != w.WokTypeBoolean {
+	if v.GetType() != w.LisgoTypeBoolean {
 		fmt.Print(v.ToString())
 		t.Fail()
 	}
@@ -49,7 +49,7 @@ func TestShouldBeBooleanTrue(t *testing.T) {
 
 func TestShouldBeBooleanFalse(t *testing.T) {
 	v := w.Eval("(debug false)")
-	if v.GetType() != w.WokTypeBoolean {
+	if v.GetType() != w.LisgoTypeBoolean {
 		t.Fail()
 	}
 	if v.ToBoolean() != false {

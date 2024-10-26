@@ -1,8 +1,8 @@
 package testing
 
 import (
+	. "lisgo/pkg/lisgo"
 	"testing"
-	. "wok/woklang"
 )
 
 func TestAddition(t *testing.T) {
