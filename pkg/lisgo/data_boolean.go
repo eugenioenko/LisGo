@@ -20,7 +20,6 @@ func (data *LisgoBoolean) ToBoolean() bool {
 }
 
 func (data *LisgoBoolean) ToInteger() int64 {
-	// TODO: confirm if its better to return error here instead of a value
 	if data.Value {
 		return 1
 	}
@@ -28,7 +27,6 @@ func (data *LisgoBoolean) ToInteger() int64 {
 }
 
 func (data *LisgoBoolean) ToFloat() float64 {
-	// TODO: confirm if its better to return error here instead of a value
 	if data.Value {
 		return 1
 	}
@@ -43,7 +41,7 @@ func (data *LisgoBoolean) GetTypeName() string {
 	return "boolean"
 }
 
-func (data *LisgoBoolean) GetValue() interface{} {
+func (data *LisgoBoolean) GetValue() any {
 	return data.Value
 }
 

@@ -11,7 +11,7 @@ func init() {
 	c = make(chan bool)
 }
 
-func lisgoJsEval(this js.Value, args []js.Value) interface{} {
+func lisgoJsEval(this js.Value, args []js.Value) any {
 	return lisgo.Eval(args[0].String()).ToString()
 }
 

@@ -42,7 +42,7 @@ func (data *LisgoString) GetTypeName() string {
 	return "string"
 }
 
-func (data *LisgoString) GetValue() interface{} {
+func (data *LisgoString) GetValue() any {
 	return data.Value
 }
 

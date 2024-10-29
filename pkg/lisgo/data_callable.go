@@ -36,7 +36,7 @@ func (data *LisgoCallable) GetTypeName() string {
 	return "function"
 }
 
-func (data *LisgoCallable) GetValue() interface{} {
+func (data *LisgoCallable) GetValue() any {
 	return data.function
 }
 

@@ -8,7 +8,7 @@ type LisgoData interface {
 	Equals(other LisgoData) bool
 	GetType() int
 	GetTypeName() string
-	GetValue() interface{}
+	GetValue() any
 }
 
 const (

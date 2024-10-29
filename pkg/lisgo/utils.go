@@ -44,8 +44,14 @@ func Map[T any, R any](items []T, transform func(T) R) []R {
 	return result
 }
 
-func ParamsHaveLisgoType(params []LisgoData, lisgoType int) bool {
+func ParamsSomeAreType(params []LisgoData, lisgoType int) bool {
 	return Some(params, func(param LisgoData, _ int) bool {
+		return param.GetType() == lisgoType
+	})
+}
+
+func ParamsEveryAreType(params []LisgoData, lisgoType int) bool {
+	return Every(params, func(param LisgoData, _ int) bool {
 		return param.GetType() == lisgoType
 	})
 }

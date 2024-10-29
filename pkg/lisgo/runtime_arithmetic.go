@@ -1,6 +1,7 @@
 package lisgo
 
 import (
+	"math"
 	"strings"
 )
 
@@ -13,66 +14,74 @@ func RuntimeAssignment(interpreter *Interpreter, expressions []Expression) Lisgo
 
 func RuntimeAddition(interpreter *Interpreter, expressions []Expression) LisgoData {
 	params := EvalParams(interpreter, expressions)
-
-	hasStringParam := ParamsHaveLisgoType(params, LisgoTypeString)
-	if hasStringParam {
-		return NewLisgoString(Concatenate(params))
-	}
-
-	hasFloatType := ParamsHaveLisgoType(params, LisgoTypeFloat)
-	if hasFloatType {
-		result := Reduce(params, func(total float64, item LisgoData, _ int) float64 {
-			return total + item.ToFloat()
-		}, 0.0)
-		return NewLisgoFloat(result)
-	}
-
-	result := Reduce(params, func(total int64, item LisgoData, _ int) int64 {
-		return total + item.ToInteger()
-	}, 0)
-	return NewLisgoInteger(result)
+	return RuntimeBinary(params, "+")
 }
 
 func RuntimeSubtraction(interpreter *Interpreter, expressions []Expression) LisgoData {
 	params := EvalParams(interpreter, expressions)
-	hasFloatType := ParamsHaveLisgoType(params, LisgoTypeFloat)
-	hasIntType := ParamsHaveLisgoType(params, LisgoTypeInteger)
-	paramsCount := len(params)
-	switch {
-	case hasFloatType && paramsCount == 1:
-		return NewLisgoFloat(-params[0].ToFloat())
-	case hasFloatType && paramsCount > 1:
-		return NewLisgoFloat(params[0].ToFloat() - params[1].ToFloat())
-	case hasIntType && paramsCount == 1:
-		return NewLisgoInteger(-params[0].ToInteger())
-	case hasIntType && paramsCount > 1:
-		return NewLisgoInteger(params[0].ToInteger() - params[1].ToInteger())
-	}
-	return NewLisgoNull()
+	return RuntimeBinary(params, "-")
 }
 
 func RuntimeMultiplication(interpreter *Interpreter, expressions []Expression) LisgoData {
 	params := EvalParams(interpreter, expressions)
-	hasFloatType := ParamsHaveLisgoType(params, LisgoTypeFloat)
-	if hasFloatType {
-		result := Reduce(params, func(total float64, item LisgoData, _ int) float64 {
-			return total * item.ToFloat()
-		}, 1.0)
-		return NewLisgoFloat(result)
-	}
-
-	result := Reduce(params, func(total int64, item LisgoData, _ int) int64 {
-		return total * item.ToInteger()
-	}, 1)
-	return NewLisgoInteger(result)
+	return RuntimeBinary(params, "*")
 }
 
 func RuntimeDivision(interpreter *Interpreter, expressions []Expression) LisgoData {
 	params := EvalParams(interpreter, expressions)
-	return NewLisgoFloat(params[0].ToFloat() / params[1].ToFloat())
+	return RuntimeBinary(params, "/")
 }
 
-func Concatenate(items []LisgoData) string {
+func RuntimeBinary(params []LisgoData, operation string) LisgoData {
+	hasStringType := ParamsSomeAreType(params, LisgoTypeString)
+	if operation == "+" && hasStringType {
+		return NewLisgoString(ConcatenateStringParams(params))
+	}
+
+	hasFloatType := ParamsSomeAreType(params, LisgoTypeFloat)
+	if hasFloatType || operation == "/" {
+		result := Reduce(params[1:], func(total float64, item LisgoData, _ int) float64 {
+			value := item.ToFloat()
+			switch operation {
+			case "+":
+				return total + value
+			case "-":
+				return total - value
+			case "*":
+				return total * value
+			case "/":
+				return total / value
+			case "%":
+				return math.Mod(total, value)
+			}
+			panic("Unknown binary operation " + operation)
+		}, params[0].ToFloat())
+		// cast result to integer when result has no decimals
+		if result == float64(int64(result)) {
+			return NewLisgoInteger(int64(result))
+		} else {
+			return NewLisgoFloat(result)
+		}
+	}
+
+	result := Reduce(params[1:], func(total int64, item LisgoData, _ int) int64 {
+		value := item.ToInteger()
+		switch operation {
+		case "+":
+			return total + value
+		case "-":
+			return total - value
+		case "*":
+			return total * value
+		case "%":
+			return total % value
+		}
+		panic("Unknown binary operation " + operation)
+	}, params[0].ToInteger())
+	return NewLisgoInteger(result)
+}
+
+func ConcatenateStringParams(items []LisgoData) string {
 	strs := Map(items, func(item LisgoData) string {
 		return item.ToString()
 	})

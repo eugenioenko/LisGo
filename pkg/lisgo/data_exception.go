@@ -32,7 +32,7 @@ func (data *LisgoException) GetTypeName() string {
 	return "exception"
 }
 
-func (data *LisgoException) GetValue() interface{} {
+func (data *LisgoException) GetValue() any {
 	return data.Value
 }
 

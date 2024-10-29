@@ -35,7 +35,7 @@ func (data *LisgoInteger) GetTypeName() string {
 	return "integer"
 }
 
-func (data *LisgoInteger) GetValue() interface{} {
+func (data *LisgoInteger) GetValue() any {
 	return data.Value
 }
 

@@ -34,7 +34,7 @@ func (data *LisgoReturn) GetTypeName() string {
 	return "return"
 }
 
-func (data *LisgoReturn) GetValue() interface{} {
+func (data *LisgoReturn) GetValue() any {
 	return data.Value
 }
 

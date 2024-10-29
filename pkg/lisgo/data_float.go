@@ -35,7 +35,7 @@ func (data *LisgoFloat) GetTypeName() string {
 	return "float"
 }
 
-func (data *LisgoFloat) GetValue() interface{} {
+func (data *LisgoFloat) GetValue() any {
 	return data.Value
 }
 

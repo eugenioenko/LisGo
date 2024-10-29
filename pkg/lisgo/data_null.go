@@ -32,7 +32,7 @@ func (data *LisgoNull) GetTypeName() string {
 	return "null"
 }
 
-func (data *LisgoNull) GetValue() interface{} {
+func (data *LisgoNull) GetValue() any {
 	panic("Cant GetValue of Null")
 }
 

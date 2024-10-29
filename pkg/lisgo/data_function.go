@@ -35,7 +35,7 @@ func (data *LisgoFunction) GetTypeName() string {
 	return "function"
 }
 
-func (data *LisgoFunction) GetValue() interface{} {
+func (data *LisgoFunction) GetValue() any {
 	return data.body
 }
 
