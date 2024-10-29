@@ -12,7 +12,7 @@ func NewLisgoFloat(value float64) *LisgoFloat {
 }
 
 func (data *LisgoFloat) ToString() string {
-	return strconv.FormatFloat(data.Value, 'E', -1, 64)
+	return strconv.FormatFloat(data.Value, 'f', -1, 64)
 }
 
 func (data *LisgoFloat) ToBoolean() bool {

@@ -29,9 +29,10 @@ var RuntimeScope = map[string]LisgoData{
 	"if":          WF("if", RuntimeIf),
 	":=":          WF(":=", RuntimeAssignment),
 	"==":          WF("==", RuntimeEquality),
-	"!=":          WF("==", RuntimeInequality),
+	"!=":          WF("!=", RuntimeInequality),
 	"!":           WF("!", RuntimeNegation),
 	"+":           WF("+", RuntimeAddition),
+	"-":           WF("-", RuntimeSubtraction),
 	"*":           WF("*", RuntimeMultiplication),
-	"-":           WF("-", RuntimeSubstraction),
+	"/":           WF("*", RuntimeDivision),
 }

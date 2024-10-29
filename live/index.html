@@ -52,8 +52,10 @@
 
         // execute code
         document.getElementById("execute").addEventListener("click", () => {
+          document.getElementById("output").innerHTML = "";
           const source = editor.getValue();
           const result = lisgo(source);
+          console.log(`Program end:\n ${new Date().toJSON()}`);
         });
 
         // inject console.log listener

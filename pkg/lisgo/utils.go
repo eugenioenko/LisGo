@@ -1,24 +1,5 @@
 package lisgo
 
-/*
-	func Reduce(items []LisgoData, reducer func(LisgoData, LisgoData, int, []LisgoData) LisgoData, initial LisgoData) LisgoData {
-		accumulator := initial
-
-		for index, item := range items {
-			accumulator = reducer(accumulator, item, index, items)
-		}
-		return accumulator
-	}
-
-	func RReduce(items []interface{}, reducer func(interface{}, interface{}, int, []interface{}) interface{}, initial interface{}) interface{} {
-		accumulator := initial
-
-		for index, item := range items {
-			accumulator = reducer(accumulator, item, index, items)
-		}
-		return accumulator
-	}
-*/
 func MathReduce(items []LisgoData, reducer func(int64, LisgoData, int) int64, initial int64) int64 {
 	accumulator := initial
 
@@ -28,33 +9,49 @@ func MathReduce(items []LisgoData, reducer func(int64, LisgoData, int) int64, in
 	return accumulator
 }
 
-func Every(items []LisgoData, f func(LisgoData, int) bool) bool {
-	for index, v := range items {
-		if !f(v, index) {
+func Reduce[T any, R any](items []T, reducer func(acc R, item T, index int) R, initial R) R {
+	acc := initial
+
+	for i, item := range items {
+		acc = reducer(acc, item, i)
+	}
+	return acc
+}
+
+func Every[T any](items []T, predicate func(T, int) bool) bool {
+	for index, item := range items {
+		if !predicate(item, index) {
 			return false
 		}
 	}
 	return true
 }
 
-/*
-func Any(vs []LisgoData, f func(LisgoData) bool) bool {
-	for _, v := range vs {
-		if f(v) {
+func Some[T any](items []T, predicate func(T, int) bool) bool {
+	for index, item := range items {
+		if predicate(item, index) {
 			return true
 		}
 	}
 	return false
 }
 
-func All(vs []LisgoData, f func(LisgoData) bool) bool {
-	for _, v := range vs {
-		if !f(v) {
-			return false
-		}
+func Map[T any, R any](items []T, transform func(T) R) []R {
+	result := make([]R, len(items))
+	for index, item := range items {
+		result[index] = transform(item)
 	}
-	return true
+	return result
 }
+
+func ParamsHaveLisgoType(params []LisgoData, lisgoType int) bool {
+	return Some(params, func(param LisgoData, _ int) bool {
+		return param.GetType() == lisgoType
+	})
+}
+
+/*
+
 
 func Filter(vs []LisgoData, f func(LisgoData) bool) []LisgoData {
 	vsf := make([]LisgoData, 0)
@@ -66,11 +63,4 @@ func Filter(vs []LisgoData, f func(LisgoData) bool) []LisgoData {
 	return vsf
 }
 
-func Map(vs []LisgoData, f func(LisgoData) LisgoData) []LisgoData {
-	vsm := make([]LisgoData, len(vs))
-	for i, v := range vs {
-		vsm[i] = f(v)
-	}
-	return vsm
-}
 */

@@ -14,7 +14,7 @@ var demo = String.raw`
 
 (print (+ 1 2 3))
 (print (- 2))
-(print (- 8 4))
+(print (* 2 (/ 2 (- 8 4))))
 (print (print "yes"))
 
 (cond
