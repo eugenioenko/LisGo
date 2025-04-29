@@ -36,6 +36,7 @@ func TestShouldBeString(t *testing.T) {
 		}
 	}
 }
+
 func TestShouldBeBooleanTrue(t *testing.T) {
 	v := w.Eval("(debug true)")
 	if v.GetType() != w.LisgoTypeBoolean {
@@ -53,6 +54,27 @@ func TestShouldBeBooleanFalse(t *testing.T) {
 		t.Fail()
 	}
 	if v.ToBoolean() != false {
+		t.Fail()
+	}
+}
+
+func TestInvalidDataType(t *testing.T) {
+	v := w.Eval("(debug (unknown_type))")
+	if v.GetType() != w.LisgoTypeException {
+		t.Fail()
+	}
+}
+
+func TestBoundaryInteger(t *testing.T) {
+	v := w.Eval(fmt.Sprintf("(debug %d)", int64(^uint64(0)>>1)))
+	if v.GetType() != w.LisgoTypeInteger {
+		t.Fail()
+	}
+}
+
+func TestNullHandling(t *testing.T) {
+	v := w.Eval("(debug null)")
+	if v.GetType() != w.LisgoTypeNull {
 		t.Fail()
 	}
 }

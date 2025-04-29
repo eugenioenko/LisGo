@@ -77,3 +77,43 @@ func TestFunctionShouldThrow(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRecursiveFunction(t *testing.T) {
+	source := `
+		(func factorial (n)
+			(if (== n 0)
+				(return 1)
+				(return (* n (factorial (- n 1))))
+			)
+		)
+		(debug (factorial 5))
+	`
+	result := lisgo.Eval(source)
+	if result.ToInteger() != 120 {
+		t.Fail()
+	}
+}
+
+func TestInvalidFunctionCall(t *testing.T) {
+	source := `
+		(debug (undefined_function 1 2 3))
+	`
+	result := lisgo.Eval(source)
+	if result.GetType() != lisgo.LisgoTypeException {
+		t.Fail()
+	}
+}
+
+func TestVariableShadowing(t *testing.T) {
+	source := `
+		(:= x 10)
+		(func test (x)
+			(return x)
+		)
+		(debug (test 20))
+	`
+	result := lisgo.Eval(source)
+	if result.ToInteger() != 20 {
+		t.Fail()
+	}
+}
