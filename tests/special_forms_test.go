@@ -27,3 +27,27 @@ func TestIfWithMissingBranches(t *testing.T) {
 		t.Errorf("Expected 1, got %d", result.ToInteger())
 	}
 }
+
+func TestCondWithMixedConditions(t *testing.T) {
+	source := `
+		(debug (cond
+			(false 1)
+			(true 2)
+			(false 3)
+		))
+	`
+	result := lisgo.Eval(source)
+	if result.ToInteger() != 2 {
+		t.Errorf("Expected 2, got %d", result.ToInteger())
+	}
+}
+
+func TestIfWithInvalidCondition(t *testing.T) {
+	source := `
+		(debug (if "invalid" 1 2))
+	`
+	result := lisgo.Eval(source)
+	if result.ToInteger() != 1 {
+		t.Errorf("Expected 1, got %d", result.ToInteger())
+	}
+}

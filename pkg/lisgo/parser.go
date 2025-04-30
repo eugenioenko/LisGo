@@ -1,10 +1,5 @@
 package lisgo
 
-import (
-	"fmt"
-	"os"
-)
-
 type Parser struct {
 	current     int
 	tokens      []Token
@@ -75,8 +70,7 @@ func (parser *Parser) Eof() bool {
 }
 
 func (parser *Parser) Error(token Token, errorMessage string) {
-	fmt.Println("[Syntax Error] " + errorMessage)
-	os.Exit(1)
+	panic("[Syntax Error] " + errorMessage)
 }
 
 // ------------------------------------------------------------------------------

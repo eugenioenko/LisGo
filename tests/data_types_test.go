@@ -59,10 +59,12 @@ func TestShouldBeBooleanFalse(t *testing.T) {
 }
 
 func TestInvalidDataType(t *testing.T) {
-	v := w.Eval("(debug (unknown_type))")
-	if v.GetType() != w.LisgoTypeException {
-		t.Fail()
-	}
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("Expected panic for invalid function")
+		}
+	}()
+	w.Eval("(debug (unknown_type))")
 }
 
 func TestBoundaryInteger(t *testing.T) {

@@ -83,3 +83,16 @@ func TestEmptyAddition(t *testing.T) {
 		t.Fail()
 	}
 }
+
+/*
+func TestModuloOperation(t *testing.T) {
+	source := `
+		(:= value (% 10 3))
+		(debug value)
+	`
+	result := Eval(source)
+	if result.GetType() != LisgoTypeInteger || result.ToInteger() != 1 {
+		t.Fail()
+	}
+}
+*/

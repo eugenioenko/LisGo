@@ -62,6 +62,11 @@ func TestFunctionShouldReturnFromInner(t *testing.T) {
 }
 
 func TestFunctionShouldThrow(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("Expected parser to panic")
+		}
+	}()
 	source := `
 		(func function (a b c)
 			(func inner (x y z)
@@ -72,10 +77,7 @@ func TestFunctionShouldThrow(t *testing.T) {
 		)
 		(debug (function 1 2 3))
 	`
-	result := lisgo.Eval(source)
-	if result.GetType() != lisgo.LisgoTypeException {
-		t.Fail()
-	}
+	lisgo.Eval(source)
 }
 
 func TestRecursiveFunction(t *testing.T) {
@@ -95,13 +97,15 @@ func TestRecursiveFunction(t *testing.T) {
 }
 
 func TestInvalidFunctionCall(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("Expected parser to panic on undefined function")
+		}
+	}()
 	source := `
 		(debug (undefined_function 1 2 3))
 	`
-	result := lisgo.Eval(source)
-	if result.GetType() != lisgo.LisgoTypeException {
-		t.Fail()
-	}
+	lisgo.Eval(source)
 }
 
 func TestVariableShadowing(t *testing.T) {
@@ -116,4 +120,16 @@ func TestVariableShadowing(t *testing.T) {
 	if result.ToInteger() != 20 {
 		t.Fail()
 	}
+}
+
+func TestInvalidFunctionDefinition(t *testing.T) {
+	source := `
+		(func invalid_function)
+	`
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("Expected panic for invalid function definition")
+		}
+	}()
+	lisgo.Eval(source)
 }
