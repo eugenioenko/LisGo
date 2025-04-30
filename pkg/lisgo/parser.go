@@ -15,7 +15,7 @@ func (parser *Parser) Parse(tokens []Token) []Expression {
 	parser.current = 0
 	parser.expressions = make([]Expression, 0)
 	parser.tokens = tokens
-	for !parser.Eof() {
+	for parser.current < len(parser.tokens) && !parser.Eof() {
 		stmt := parser.Statement()
 		parser.expressions = append(parser.expressions, stmt)
 	}
