@@ -1,16 +1,6 @@
 package lisgo
 
-import (
-	"fmt"
-)
-
 func Eval(source string) (result LisgoData) {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println("[Runtime Error] Oops! Unhandled Error")
-			result = NewLisgoException("Unhandled Exception")
-		}
-	}()
 	tokenizer := MakeTokenizer()
 	tokenizer.LoadFromString(source)
 	tokens := tokenizer.Tokenize()
@@ -24,12 +14,6 @@ func Eval(source string) (result LisgoData) {
 }
 
 func Exec(filename string) (result LisgoData) {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println("[Runtime Error] Oops! Unhandled Error")
-			result = NewLisgoException("Unhandled Exception")
-		}
-	}()
 	tokenizer := MakeTokenizer()
 	tokenizer.LoadFromFile(filename)
 	tokens := tokenizer.Tokenize()

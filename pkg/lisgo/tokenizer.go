@@ -1,8 +1,6 @@
 package lisgo
 
 import (
-	"fmt"
-	"io/ioutil"
 	"os"
 	"unicode"
 )
@@ -21,7 +19,7 @@ func MakeTokenizer() Tokenizer {
 }
 
 func (tokenizer *Tokenizer) LoadFromFile(fileName string) {
-	content, err := ioutil.ReadFile(fileName)
+	content, err := os.ReadFile(fileName)
 	if err != nil {
 		tokenizer.Error(err.Error())
 	}
@@ -39,7 +37,7 @@ func (tokenizer *Tokenizer) Eof() bool {
 }
 
 func (tokenizer *Tokenizer) Advance() byte {
-	var current byte = tokenizer.source[tokenizer.current]
+	current := tokenizer.source[tokenizer.current]
 	tokenizer.current += 1
 	return current
 }
@@ -74,8 +72,7 @@ func (tokenizer *Tokenizer) AddToken(Type TokenType, literal string) {
 }
 
 func (tokenizer *Tokenizer) Error(errorMessage string) {
-	fmt.Println("[Scan Error] " + errorMessage)
-	os.Exit(1)
+	panic("[Scan Error] " + errorMessage)
 }
 
 func (tokenizer *Tokenizer) Tokenize() []Token {
@@ -134,6 +131,7 @@ func (tokenizer *Tokenizer) Identifier() {
 
 func (tokenizer *Tokenizer) Number() {
 	isFloat := false
+	isNegative := tokenizer.start > 0 && tokenizer.source[tokenizer.start-1] == '-'
 
 	for unicode.IsDigit(tokenizer.Peek()) {
 		tokenizer.Advance()
@@ -152,7 +150,12 @@ func (tokenizer *Tokenizer) Number() {
 	} else {
 		tokenType = TokenTypeInteger
 	}
-	tokenizer.AddToken(tokenType, string(tokenizer.source[tokenizer.start:tokenizer.current]))
+
+	numberLiteral := string(tokenizer.source[tokenizer.start:tokenizer.current])
+	if isNegative {
+		numberLiteral = "-" + numberLiteral
+	}
+	tokenizer.AddToken(tokenType, numberLiteral)
 }
 
 func (tokenizer *Tokenizer) twoChar(char rune) bool {
@@ -165,7 +168,7 @@ func (tokenizer *Tokenizer) twoChar(char rune) bool {
 }
 
 func (tokenizer *Tokenizer) oneChar(char rune) bool {
-	return char == '*' || char == '+' || char == '-' || char == '<' ||
+	return char == '*' || char == '+' || char == '<' ||
 		char == '>' || char == '!' || char == '=' || char == '/'
 }
 
@@ -186,9 +189,11 @@ func (tokenizer *Tokenizer) ScanToken() {
 		tokenizer.AddToken(TokenTypeReserved, string(char))
 	case char == '"' || char == '\'':
 		tokenizer.String(char)
-	case unicode.IsDigit(char):
+	case unicode.IsDigit(char) || (char == '-' && unicode.IsDigit(tokenizer.Peek())):
 		tokenizer.Number()
-	case unicode.IsLetter(char):
+	case char == '-':
+		tokenizer.AddToken(TokenTypeReserved, string(char))
+	case char == '_' || unicode.IsLetter(char):
 		tokenizer.Identifier()
 	case char == ';':
 		tokenizer.Comment()

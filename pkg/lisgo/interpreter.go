@@ -2,7 +2,6 @@ package lisgo
 
 import (
 	"fmt"
-	"os"
 )
 
 type Interpreter struct {
@@ -31,8 +30,7 @@ func (interpreter *Interpreter) Evaluate(expr Expression) LisgoData {
 }
 
 func (interpreter *Interpreter) Error(errorMessage string) {
-	fmt.Println("[Runtime Error] " + errorMessage)
-	os.Exit(1)
+	panic("[Runtime Error] " + errorMessage)
 }
 
 func (interpreter *Interpreter) FunctionCall(function *LisgoFunction, expressions []Expression) (result LisgoData) {

@@ -64,3 +64,20 @@ func TestEqualityMultipleShouldBeBooleanFalse(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestInvalidLogicalExpression(t *testing.T) {
+	v := w.Eval("(debug (!= 1 \"string\"))")
+	if v.GetType() != w.LisgoTypeBoolean {
+		t.Fail()
+	}
+	if v.ToBoolean() != true {
+		t.Fail()
+	}
+}
+
+func TestMixedTypeEquality(t *testing.T) {
+	v := w.Eval("(debug (== 1 \"1\"))")
+	if v.GetType() != w.LisgoTypeBoolean || v.ToBoolean() != false {
+		t.Fail()
+	}
+}

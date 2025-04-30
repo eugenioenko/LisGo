@@ -1,8 +1,26 @@
-SHELL := /bin/bash
+# Variables
+APP_NAME=autentico
 
-APP_NAME = wasm_builder
+# Default target
+all: build
 
+# Build the Go binary
 build:
-	GOOS=js GOARCH=wasm go build -o live/lisgo.wasm wasm/lisgo.go
+		GOOS=js GOARCH=wasm go build -o live/lisgo.wasm wasm/lisgo.go
+
+# Run the application
+run:
+	go run main.go
+
+# Format code using gofmt
+fmt:
+	gofmt -w .
+
+# Run tests
+.PHONY: test
 test:
-	go test ./tests -v
+	go test ./...
+
+# Run a linter (requires `golangci-lint`)
+lint:
+	golangci-lint run ./...

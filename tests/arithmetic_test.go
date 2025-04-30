@@ -2,6 +2,7 @@ package testing
 
 import (
 	. "lisgo/pkg/lisgo"
+	"math"
 	"testing"
 )
 
@@ -48,3 +49,50 @@ func TestDivisionIntInt(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestDivisionByZero(t *testing.T) {
+	source := `
+		(:= value (/ 10 0))
+		(debug value)
+	`
+	result := Eval(source)
+	num := result.ToFloat()
+	if !math.IsInf(num, 1) {
+		t.Fail()
+	}
+}
+
+func TestNegativeNumbers(t *testing.T) {
+	source := `
+		(:= value (+ -1 -2 -3))
+		(debug value)
+	`
+	result := Eval(source)
+	if result.GetType() != LisgoTypeInteger || result.ToInteger() != -6 {
+		t.Fail()
+	}
+}
+
+func TestEmptyAddition(t *testing.T) {
+	source := `
+		(:= value (+))
+		(debug value)
+	`
+	result := Eval(source)
+	if result.GetType() != LisgoTypeInteger || result.ToInteger() != int64(math.NaN()) {
+		t.Fail()
+	}
+}
+
+/*
+func TestModuloOperation(t *testing.T) {
+	source := `
+		(:= value (% 10 3))
+		(debug value)
+	`
+	result := Eval(source)
+	if result.GetType() != LisgoTypeInteger || result.ToInteger() != 1 {
+		t.Fail()
+	}
+}
+*/

@@ -38,6 +38,11 @@ func RuntimeBinary(params []LisgoData, operation string) LisgoData {
 		return NewLisgoString(ConcatenateStringParams(params))
 	}
 
+	if len(params) == 0 {
+		// return NaN for (+), (-), (/), etc...
+		return NewLisgoInteger(int64(math.NaN()))
+	}
+
 	hasFloatType := ParamsSomeAreType(params, LisgoTypeFloat)
 	if hasFloatType || operation == "/" {
 		result := Reduce(params[1:], func(total float64, item LisgoData, _ int) float64 {
