@@ -6,8 +6,8 @@
     <title>LisGo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="./styles.css" />
-    <script src="./wasm_exec.js"></script>
-    <script src="./demo.js"></script>
+    <script src="./wasm_exec.js?v=2"></script>
+    <script src="./demo.js?v=2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.9/ace.js"></script>
   </head>
   <body>
@@ -26,7 +26,7 @@
         async function initLisGo() {
           const go = new Go();
           result = await WebAssembly.instantiateStreaming(
-            fetch("lisgo.wasm"),
+            fetch(`lisgo.wasm?v2`),
             go.importObject
           );
           go.run(result.instance);
