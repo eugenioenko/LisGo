@@ -1,7 +1,7 @@
 package lisgo
 
 import (
-	"io/ioutil"
+	"os"
 	"unicode"
 )
 
@@ -19,7 +19,7 @@ func MakeTokenizer() Tokenizer {
 }
 
 func (tokenizer *Tokenizer) LoadFromFile(fileName string) {
-	content, err := ioutil.ReadFile(fileName)
+	content, err := os.ReadFile(fileName)
 	if err != nil {
 		tokenizer.Error(err.Error())
 	}
@@ -37,7 +37,7 @@ func (tokenizer *Tokenizer) Eof() bool {
 }
 
 func (tokenizer *Tokenizer) Advance() byte {
-	var current byte = tokenizer.source[tokenizer.current]
+	current := tokenizer.source[tokenizer.current]
 	tokenizer.current += 1
 	return current
 }

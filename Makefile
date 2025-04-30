@@ -24,14 +24,3 @@ test:
 # Run a linter (requires `golangci-lint`)
 lint:
 	golangci-lint run ./...
-
-
-# Generate swagger docs
-generate-docs:
-	swag init
-	npx @redocly/cli build-docs ./docs/swagger.yaml --output=./docs/autentico-api.html
-
-# Run swagger
-.PHONY: docs
-docs:
-	go run cmd/swagger.go
