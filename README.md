@@ -1,8 +1,29 @@
 # 🦜 LisGo
 
+[![Go Version](https://img.shields.io/badge/Go-1.22-blue)](https://golang.org)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/eugenioenko/lisgo/actions)
+[![License](https://img.shields.io/badge/license-MIT-blue)](/home/enko/Documents/lisgo/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/eugenioenko/lisgo)](https://goreportcard.com/report/github.com/eugenioenko/lisgo)
+
 LisGo is a minimalist programming language built with Go. It serves as a foundation to explore and experiment with the complexities of functional programming language interpretation. Initially inspired by Lisp, LisGo will gradually diverge as it evolves.
 
 ## 🌐 [Try it out in the Web Assembly Playground!](https://eugenioenko.github.io/LisGo/live)
+
+---
+
+## 📖 Table of Contents
+
+- [Building the Project](#-building-the-project)
+- [Building the WebAssembly Binary](#-building-the-webassembly-binary)
+- [Running the Project](#-running-the-project)
+- [Running the Playground Locally](#-running-the-playground-locally)
+- [Command-Line Interface (CLI)](#-command-line-interface-cli)
+- [Testing](#-testing)
+- [Continuous Integration Pipeline](#-continuous-integration-pipeline)
+- [Design Tradeoffs & Notes](#-design-tradeoffs--notes)
+- [LisGo Language Documentation](#-lisgo-language-documentation)
+- [Updates](#-updates)
+- [License](#-license)
 
 ---
 
@@ -62,6 +83,56 @@ http-server
 
 ---
 
+## 🖥️ Command-Line Interface (CLI)
+
+LisGo provides a command-line interface for running LisGo scripts and evaluating code directly from your terminal.
+
+### Usage
+
+```bash
+go run lisgo.go
+```
+
+Or, if you have built the binary:
+
+```bash
+./lisgo
+```
+
+### Commands
+
+- **exec [filename]**
+
+  Executes the LisGo script specified by `[filename]`.
+
+  **Example:**
+
+  ```bash
+  lisgo exec demo.lisp
+  ```
+
+- **eval [code]**
+
+  Evaluates the LisGo code passed as an argument.
+
+  **Example:**
+
+  ```bash
+  lisgo eval "(print (+ 1 2 3))"
+  ```
+
+- **help**
+
+  Prints the help message with usage instructions.
+
+  **Example:**
+
+  ```bash
+  lisgo help
+  ```
+
+---
+
 ## ✅ Testing
 
 Run all tests using:
@@ -75,6 +146,66 @@ This command will execute all the tests located in the `tests` folder by running
 ```bash
 go test ./...
 ```
+
+---
+
+## 🚀 Continuous Integration Pipeline
+
+LisGo's CI pipeline is defined in the `.github/workflows/go.yml` file and includes the following jobs:
+
+1. **Lint**:
+
+   - Runs `golangci-lint` to ensure code quality.
+   - Checks for linting issues across the codebase.
+
+2. **Format**:
+
+   - Verifies code formatting using `gofmt`.
+   - Ensures consistent formatting across all Go files.
+
+3. **Build**:
+
+   - Builds the Go binary for the project.
+   - Compiles the WebAssembly binary using:
+     ```bash
+     GOOS=js GOARCH=wasm go build -o live/lisgo.wasm wasm/lisgo.go
+     ```
+
+4. **Test**:
+
+   - Runs all tests in the `tests` folder using:
+     ```bash
+     go test ./tests/... -v
+     ```
+
+5. **Static Analysis**:
+
+   - Executes `go vet` to perform static code analysis and catch potential issues.
+
+6. **Tidy Check**:
+   - Ensures the `go.mod` and `go.sum` files are up-to-date.
+   - Verifies no uncommitted changes exist after running `go mod tidy`.
+
+The pipeline is triggered on:
+
+- Pushes to the `main` branch.
+- Pull requests targeting the `main` branch.
+
+---
+
+## ⚖️ Design Tradeoffs & Notes
+
+LisGo is intentionally minimalist and experimental. Some notable tradeoffs and design decisions include:
+
+- **Simplicity over Completeness:** The language omits many features found in full Lisp implementations to keep the codebase approachable and easy to modify.
+- **Performance vs. Clarity:** The interpreter prioritizes code clarity and educational value over raw execution speed or memory efficiency.
+- **Error Handling:** Error messages are basic and may not always provide detailed diagnostics, in favor of a simpler implementation.
+- **Type System:** LisGo uses dynamic typing with minimal type checking, which can lead to runtime errors but simplifies the interpreter.
+- **Standard Library:** The built-in functions are limited; users are encouraged to extend the language as needed.
+- **Deviation from Lisp:** While inspired by Lisp, LisGo intentionally diverges in syntax and semantics as new features are added or simplified.
+- **Concurrency:** No built-in concurrency primitives are provided, reflecting a focus on core language features first.
+
+These tradeoffs are made to keep LisGo accessible for learning, experimentation, and rapid prototyping.
 
 ---
 

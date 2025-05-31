@@ -3,8 +3,9 @@
 package main
 
 import (
-	"lisgo/pkg/lisgo"
 	"syscall/js"
+
+	"github.com/eugenioenko/lisgo/pkg/lisgo"
 )
 
 var c chan bool
