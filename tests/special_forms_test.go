@@ -1,8 +1,9 @@
 package testing
 
 import (
-	"lisgo/pkg/lisgo"
 	"testing"
+
+	"github.com/eugenioenko/lisgo/pkg/lisgo"
 )
 
 func TestCondWithNoTruthyCondition(t *testing.T) {

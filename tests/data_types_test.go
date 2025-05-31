@@ -2,9 +2,10 @@ package testing
 
 import (
 	"fmt"
-	w "lisgo/pkg/lisgo"
 	"math/rand"
 	"testing"
+
+	w "github.com/eugenioenko/lisgo/pkg/lisgo"
 )
 
 func TestShouldBeInteger(t *testing.T) {

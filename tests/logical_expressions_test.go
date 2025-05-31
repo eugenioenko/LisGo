@@ -1,8 +1,9 @@
 package testing
 
 import (
-	w "lisgo/pkg/lisgo"
 	"testing"
+
+	w "github.com/eugenioenko/lisgo/pkg/lisgo"
 )
 
 func TestInequalityShouldBeBooleanFalse(t *testing.T) {

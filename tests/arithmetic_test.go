@@ -1,9 +1,10 @@
 package testing
 
 import (
-	. "lisgo/pkg/lisgo"
 	"math"
 	"testing"
+
+	. "github.com/eugenioenko/lisgo/pkg/lisgo"
 )
 
 func TestAdditionInt1(t *testing.T) {

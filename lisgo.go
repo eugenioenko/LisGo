@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"lisgo/pkg/lisgo"
 	"os"
 	"strings"
+
+	"github.com/eugenioenko/lisgo/pkg/lisgo"
 )
 
 func main() {
