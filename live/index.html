@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="./styles.css" />
     <script src="./wasm_exec.js?v=2"></script>
     <script src="./demo.js?v=2"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.9/ace.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs/editor/editor.main.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs/loader.js"></script>
   </head>
   <body>
     <div id="container">
@@ -36,19 +40,24 @@
 
         initLisGo();
 
-        // init editor
-        function createEditor(id, source, mode) {
-          let editor = ace.edit(id);
-          editor.session.setMode(`ace/mode/${mode || "javascript"}`);
-          editor.getSession().setUseWorker(false);
-          editor.setTheme("ace/theme/monokai");
-          editor.setFontSize(15);
-          editor.setValue(source);
-          editor.selection.moveCursorToPosition({ row: 1, column: 0 });
-          editor.selection.selectLine();
-          return editor;
-        }
-        const editor = createEditor("editor", demo, "lisp");
+        // init Monaco editor
+        require.config({
+          paths: {
+            vs: "https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs",
+          },
+        });
+
+        let editor;
+        require(["vs/editor/editor.main"], function () {
+          editor = monaco.editor.create(document.getElementById("editor"), {
+            value: demo,
+            language: "scheme",
+            theme: "vs-dark",
+            fontSize: 14,
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+          });
+        });
 
         // execute code
         document.getElementById("execute").addEventListener("click", () => {

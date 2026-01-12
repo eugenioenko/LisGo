@@ -13,11 +13,11 @@ html {
 }
 
 #panel {
-  background-color: #25261e;
+  background-color: #222222;
   display: grid;
   grid-template-rows: 44px 1fr;
   grid-template-columns: 1fr;
-  border-left: 4px solid #2f3129;
+  border-left: 3px solid #333333;
   overflow: hidden;
 }
 
@@ -59,6 +59,6 @@ button {
   color: white;
   background: rgb(6, 150, 14);
   border-radius: 6px;
-  padding: 6px 8px;
+  padding: 8px 12px;
   min-width: 128px;
 }
